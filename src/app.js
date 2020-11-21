@@ -9,7 +9,7 @@ template = (
     <div>
         <h1>{ app.title }</h1>
         {
-            // Use FEATURE of AND returning last value evaluated and {[true|false|null|undefined]} NOT being evaluated to a displayable value in JSX.
+            // Use FEATURE of && i.e. returning last value evaluated and {[true|false|null|undefined]} NOT being evaluated to a displayable value in JSX.
         }
         { app && app.subTitle && <p>{app.subTitle}</p> }
         <p>{ (app && app.options && app.options.length > 0) ? 'Here are your options:' : 'No options' }</p>
