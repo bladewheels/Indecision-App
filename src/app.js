@@ -1,34 +1,16 @@
 console.log('App is running...');
 
-var template = (
+var app = { title: 'Indecision App', subTitle: 'This is some info' },
+template = (
     <div>
-        <h1>This is all JSX, compiled by Babel's watch</h1>
-        <p>This is a paragraph</p>
+        <h1>{ app.title }</h1>
+        <p>{ app.subTitle }</p>
         <ol>
-            <li>an item</li>
-            <li>another item</li>
+            <li>Item one</li>
+            <li>Item two</li>
         </ol>
     </div>
 ),
-templateTwo = (
+appRoot = document.getElementById('app');
 
-    <div>
-        <h1>Michael</h1>
-        <p>Age: 62</p>
-        <p>Location: Bedroom</p>
-    </div>
-);
-
-/* 
- - CHALLENGE:
-    Create a templateTwo var JSX expr
-    div
-        h1 -> Michael
-        p -> Age: 62
-        p -> Location: Bedroom
-    
-        render this template
-*/
-var appRoot = document.getElementById('app');
-
-ReactDOM.render(templateTwo, appRoot);
+ReactDOM.render(template, appRoot);
