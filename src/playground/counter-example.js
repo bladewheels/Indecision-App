@@ -45,9 +45,21 @@ class Counter extends React.Component {
             count: 0
         }
     }
-    resetCount() { console.log('Before: ',this.state.count); this.state.count = 0; console.log('After: ',this.state.count); }
-    minusOne() { this.setState((prevState) => { return { count: prevState.count - 1 }; }); }
-    plusOne() { this.setState((prevState) => { return { count: prevState.count + 1 }; }); }
+    resetCount() { 
+        this.setState(() => { 
+            return { count: 0 }; 
+        }); 
+    }
+    minusOne() { 
+        this.setState((prevState) => { 
+            return { count: prevState.count - 1 }; 
+        }); 
+    }
+    plusOne() { 
+        this.setState((prevState) => { 
+            return { count: prevState.count + 1 }; 
+        }); 
+    }
     render() {
         return (
             <div>
