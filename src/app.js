@@ -9,23 +9,25 @@ const app = {
 addOption = (event) => {
     event.preventDefault();
     const option = event.target.elements.option.value;
-    if (option);{
+    if (option) {
         app.options.push(option);
         event.target.elements.option.value = '';
         renderApp();
     }
+},
+resetOptions = () => {
+    app.options = [];
+    renderApp();
 },
 appRoot = document.getElementById('app'),
 renderApp = () => {
     const template = (
         <div>
             <h1>{ app.title }</h1>
-            {
-                // Use FEATURE of && i.e. returning last value evaluated and {[true|false|null|undefined]} NOT being evaluated to a displayable value in JSX.
-            }
             { app && app.subTitle && <p>{app.subTitle}</p> }
             <p>{ (app && app.options && app.options.length > 0) ? 'Here are your options:' : 'No options' }</p>
             <p>{app.options.length}</p>
+            <button onClick={resetOptions}>Reset Options</button>
             <ol>
                 <li>Item one</li>
                 <li>Item two</li>
