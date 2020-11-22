@@ -18,6 +18,9 @@ resetOptions = () => {
     app.options = [];
     renderApp();
 },
+pickOption = () => {
+    alert(app.options[Math.floor(Math.random() * app.options.length)]);
+},
 optionsAsList = () => {
     app.options.map((option) => {
         <li>option</li>
@@ -30,6 +33,7 @@ renderApp = () => {
             <h1>{ app.title }</h1>
             { app && app.subTitle && <p>{app.subTitle}</p> }
             <p>{ (app && app.options && app.options.length > 0) ? 'Here are your options:' : 'No options' }</p>
+            <button disabled={0 === app.options.length} onClick={pickOption}>What should I do?</button>
             <button onClick={resetOptions}>Reset Options</button>
             <ol>
             { /* Map over the options, using the index as the HTML key attribute */
