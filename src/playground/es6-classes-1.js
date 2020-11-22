@@ -73,13 +73,13 @@ class Traveler extends Person {
 }
 
 const aTraveller = new Traveler('Mary', 17, 'Edmonton');
-console.log(aTraveller);
+// console.log(aTraveller);
 console.log(aTraveller.getGreeting());
 
 const anotherTraveller = new Traveler('Bob', 77);
-console.log(anotherTraveller);
+// console.log(anotherTraveller);
 console.log(anotherTraveller.getGreeting());
 
 const yetAnotherTraveller = new Traveler();
-console.log(yetAnotherTraveller);
+// console.log(yetAnotherTraveller);
 console.log(yetAnotherTraveller.getGreeting());
