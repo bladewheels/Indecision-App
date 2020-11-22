@@ -1,5 +1,6 @@
 console.log('App is running...');
 
+let count = 0;
 const app = { 
     title: 'Indecision App'
     ,subTitle: 'Put your life in the hands of a computer'
@@ -19,6 +20,25 @@ template = (
         </ol>
     </div>
 ),
-appRoot = document.getElementById('app');
+appRoot = document.getElementById('app'),
 
-ReactDOM.render(template, appRoot);
+buttonIdForTemplateTwo = 'plus-one',
+addOne = () => { console.log('Added 1') },
+minusOne = () => { console.log('Subtracted 1') },
+reset = () => { console.log('Reset') },
+templateTwo = (
+    <div>
+        <h1>Count: {count}</h1>
+        {
+            // 'class' is a reserved word in JS so we must specify the 'className' attribute (of a DOM Element) in JSX instead.
+        }
+        <button id={buttonIdForTemplateTwo} className='btn' onClick={addOne}>+1</button>
+        <button id='plus-two' onClick={() => console.log('Added 2')}>+2</button>
+        <button id='plus-two' onClick={minusOne}>-1</button>
+        <button id='plus-two' onClick={reset}>Reset</button>
+    </div>
+);
+
+// console.log(templateTwo.props);
+ReactDOM.render(templateTwo, appRoot);
+// ReactDOM.render(template, appRoot);
