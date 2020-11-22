@@ -7,8 +7,8 @@ class IndecisionApp extends React.Component {
             <div>
                 <Header title={title} subtitle={subtitle} />
                 <Action />
-                <ResetOptions />
-                <Options options={options}/>
+                <ResetOptions options={options} />
+                <Options options={options} />
                 <AddOption />
             </div>
         );
@@ -82,11 +82,15 @@ class AddOption extends React.Component {
 }
 
 class ResetOptions extends React.Component {
-    resetOptions() { alert('TODO: Reset Options'); }
+    constructor(props) {
+        super(props);
+        this.resetOptions = this.resetOptions.bind(this);
+    }
+    resetOptions() { alert(this.props.options); }
     render() {
         return (
             <div>
-                <button onClick={this.resetOptions}>Reset Options</button>
+                <button onClick={this.resetOptions /* The following works OK but is a bit expensive: .bind(this) */}>Reset Options</button>
             </div>
         );
     }
