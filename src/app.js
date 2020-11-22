@@ -7,6 +7,7 @@ class IndecisionApp extends React.Component {
             <div>
                 <Header title={title} subtitle={subtitle} />
                 <Action />
+                <ResetOptions />
                 <Options options={options}/>
                 <AddOption />
             </div>
@@ -26,10 +27,12 @@ class Header extends React.Component {
 }
 
 class Action extends React.Component {
-    render() { return <button>What should I do?</button>; }
+    pickOption() { alert('Pickled Option'); }
+    render() { return <button onClick={this.pickOption}>What should I do?</button>; }
 }
 
 class Options extends React.Component {
+    resetOptions() { alert('TODO: Reset Options'); }
     render() {
         return (
             <div>
@@ -56,10 +59,20 @@ class Option extends React.Component {
 }
 
 class AddOption extends React.Component {
+    addOption(event) { 
+        event.preventDefault();
+        const option = event.target.elements.option.value.trim();
+        if (option) {
+        //     app.options.push(option);
+        //     renderApp();
+            alert(option); 
+            event.target.elements.option.value = '';
+        }
+    }
     render() {
         return (
             <div>
-                <form>
+                <form onSubmit={this.addOption}>
                     <input type="text" name="option"/>
                     <button>Add Option</button>
                 </form>
@@ -68,9 +81,15 @@ class AddOption extends React.Component {
     }
 }
 
-// const jsx = (
-//     <div>
-//         <IndecisionApp />
-//     </div>
-// )
+class ResetOptions extends React.Component {
+    resetOptions() { alert('TODO: Reset Options'); }
+    render() {
+        return (
+            <div>
+                <button onClick={this.resetOptions}>Reset Options</button>
+            </div>
+        );
+    }
+}
+
 ReactDOM.render(<IndecisionApp />, document.getElementById('app'));
