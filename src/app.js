@@ -4,63 +4,39 @@ let count = 0;
 const app = { 
     title: 'Indecision App'
     ,subTitle: 'Put your life in the hands of a computer'
-    ,options: [ 'One', 'Two' ]
+    ,options: []
 },
-template = (
-    <div>
-        <h1>{ app.title }</h1>
-        {
-            // Use FEATURE of && i.e. returning last value evaluated and {[true|false|null|undefined]} NOT being evaluated to a displayable value in JSX.
-        }
-        { app && app.subTitle && <p>{app.subTitle}</p> }
-        <p>{ (app && app.options && app.options.length > 0) ? 'Here are your options:' : 'No options' }</p>
-        <ol>
-            <li>Item one</li>
-            <li>Item two</li>
-        </ol>
-    </div>
-),
+addOption = (event) => {
+    event.preventDefault();
+    const option = event.target.elements.option.value;
+    if (option);{
+        app.options.push(option);
+        event.target.elements.option.value = '';
+        renderApp();
+    }
+},
 appRoot = document.getElementById('app'),
-
-buttonIdForTemplateTwo = 'plus-one',
-addOne = () => { 
-    count++;
-    renderCounterApp();
-},
-minusOne = () => { 
-    count--;
-    renderCounterApp();
-},
-reset = () => {
-    count = 0;
-    renderCounterApp();
- }
-;
-
-const renderCounterApp = () => {
-
+renderApp = () => {
     const template = (
         <div>
-            <h1>Count: {count}</h1>
+            <h1>{ app.title }</h1>
             {
-                // 'class' is a reserved word in JS so we must specify the 'className' attribute (of a DOM Element) in JSX instead.
+                // Use FEATURE of && i.e. returning last value evaluated and {[true|false|null|undefined]} NOT being evaluated to a displayable value in JSX.
             }
-            <button id={buttonIdForTemplateTwo} className='btn' onClick={addOne}>+1</button>
-            <button id='plus-two' onClick={() => {
-                count++; 
-                count++; 
-                renderCounterApp(); 
-            }}>+2</button>
-            <button id='plus-two' onClick={minusOne}>-1</button>
-            <button id='plus-two' onClick={reset}>Reset</button>
+            { app && app.subTitle && <p>{app.subTitle}</p> }
+            <p>{ (app && app.options && app.options.length > 0) ? 'Here are your options:' : 'No options' }</p>
+            <p>{app.options.length}</p>
+            <ol>
+                <li>Item one</li>
+                <li>Item two</li>
+            </ol>
+            <form onSubmit={addOption}>
+                <input type="text" name="option"/>
+                <button>Add Option</button>
+            </form>
         </div>
     );
     ReactDOM.render(template, appRoot);
-}
+};
 
-
-// console.log(templateTwo.props);
-// ReactDOM.render(templateTwo, appRoot);
-// ReactDOM.render(template, appRoot);
-
-renderCounterApp();
+renderApp();
