@@ -7,7 +7,7 @@ class IndecisionApp extends React.Component {
         this.state = {
             title: this.props.title,
             subtitle: this.props.subtitle,
-            options: ['Thing One','Thing Two','Thing Three']
+            options: []
         }
     }
 
@@ -29,7 +29,7 @@ class IndecisionApp extends React.Component {
             <div>
                 <Header title={this.state.title} subtitle={this.state.subtitle} />
                 <Action hasOptions={this.state.options.length > 0}/>
-                <ResetOptions options={this.state.options} handleResetOptions={this.resetOptions} />
+                <ResetOptions hasOptions={this.state.options.length > 0} options={this.state.options} handleResetOptions={this.resetOptions} />
                 <Options options={this.state.options} />
                 <AddOption handleAddOption={this.addOption} />
             </div>
@@ -113,7 +113,7 @@ class ResetOptions extends React.Component {
     render() {
         return (
             <div>
-                <button onClick={this.props.handleResetOptions}>Reset Options</button>
+                <button disabled={!this.props.hasOptions} onClick={this.props.handleResetOptions}>Reset Options</button>
             </div>
         );
     }
