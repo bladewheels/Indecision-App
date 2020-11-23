@@ -8,7 +8,7 @@ class IndecisionApp extends React.Component {
         this.state = {
             title: this.props.title,
             subtitle: this.props.subtitle,
-            options: []
+            options: props.options
         }
     }
 
@@ -45,48 +45,47 @@ class IndecisionApp extends React.Component {
         );
     }
 }
+IndecisionApp.defaultProps = {
+    options: []
+};
 
-class Header extends React.Component {
-    render() {
-        return (
-            <div>
-                <h1>{this.props.title}</h1>
-                <h2>{this.props.subtitle}</h2>
-            </div>
-        );
-    }
-}
+const Header = (props) => {
+    return (
+        <div>
+            <h1>{props.title}</h1>
+            {props.subtitle && <h2>{props.subtitle}</h2>}
+        </div>
+    );
 
-class Action extends React.Component {
-    render() { 
+};
+Header.defaultProps = {
+    title: 'Indecision App'
+};
+
+const Action = (props) => {
         return (
-            <button disabled={!this.props.hasOptions} onClick={this.props.handlePickOption}>What should I do?</button>
+            <button disabled={!props.hasOptions} onClick={props.handlePickOption}>What should I do?</button>
         )
-    }
-}
+};
 
-class Options extends React.Component {
-    render() {
-        return (
-            <div>
-                <p>Your Options:</p>
-                <ol>
-                    { 
-                        this.props.options.map((option, index) => {
-                            return <Option key={index} index={index} text={option}/>;
-                        })
-                    }
-                </ol>
-            </div>
-        );
-    }
-}
+const Options = (props) => {    
+    return (
+        <div>
+            <p>Your Options:</p>
+            <ol>
+                { 
+                    props.options.map((option, index) => {
+                        return <Option key={index} index={index} text={option}/>;
+                    })
+                }
+            </ol>
+        </div>
+    );
+};
 
-class Option extends React.Component {
-    render() {
-        return <li key={this.props.index}>{this.props.text}</li>;
-    }
-}
+const Option = (props) => {
+    return <li key={props.index}>{props.text}</li>;
+};
 
 class AddOption extends React.Component {
     constructor(props) {
@@ -118,14 +117,12 @@ class AddOption extends React.Component {
     }
 }
 
-class ResetOptions extends React.Component {
-    render() {
-        return (
-            <div>
-                <button disabled={!this.props.hasOptions} onClick={this.props.handleResetOptions}>Reset Options</button>
-            </div>
-        );
-    }
-}
+const ResetOptions = (props) => {    
+    return (
+        <div>
+            <button disabled={!props.hasOptions} onClick={props.handleResetOptions}>Reset Options</button>
+        </div>
+    );
+};
 
-ReactDOM.render(<IndecisionApp title={'Indecision App'} subtitle={'Put your life in the hands of a computer'} />, document.getElementById('app'));
+ReactDOM.render(<IndecisionApp subtitle={'Put your life in the hands of a computer'} options={['one','two','three']} />, document.getElementById('app'));
