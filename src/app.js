@@ -3,6 +3,7 @@ class IndecisionApp extends React.Component {
     constructor(props) {
         super(props);
         this.addOption = this.addOption.bind(this);
+        this.pickOption = this.pickOption.bind(this);
         this.resetOptions = this.resetOptions.bind(this);
         this.state = {
             title: this.props.title,
@@ -24,12 +25,16 @@ class IndecisionApp extends React.Component {
         }); 
     }
 
+    pickOption() {
+        alert(this.state.options[Math.floor(Math.random() * this.state.options.length)]);
+    }
+
     render() {
         return (
             <div>
                 <Header title={this.state.title} subtitle={this.state.subtitle} />
-                <Action hasOptions={this.state.options.length > 0}/>
-                <ResetOptions hasOptions={this.state.options.length > 0} options={this.state.options} handleResetOptions={this.resetOptions} />
+                <Action hasOptions={this.state.options.length > 0} handlePickOption={this.pickOption} />
+                <ResetOptions hasOptions={this.state.options.length > 0} handleResetOptions={this.resetOptions} />
                 <Options options={this.state.options} />
                 <AddOption handleAddOption={this.addOption} />
             </div>
@@ -49,25 +54,20 @@ class Header extends React.Component {
 }
 
 class Action extends React.Component {
-    pickOption() { alert('Pickled Option'); }
     render() { 
         return (
-            <button disabled={!this.props.hasOptions} onClick={this.pickOption}>What should I do?</button>
+            <button disabled={!this.props.hasOptions} onClick={this.props.handlePickOption}>What should I do?</button>
         )
     }
 }
 
 class Options extends React.Component {
-    resetOptions() { alert('TODO: Reset Options'); }
     render() {
         return (
             <div>
                 <p>Your Options:</p>
                 <ol>
                     { 
-                        /* Map over the options, using the index as the HTML key attribute
-                            (Apparently) duplicate the 'key' and 'index' props as the 'key' prop is reserved by React
-                        */
                         this.props.options.map((option, index) => {
                             return <Option key={index} index={index} text={option}/>;
                         })
