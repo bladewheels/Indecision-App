@@ -13,6 +13,20 @@ class IndecisionApp extends React.Component {
         }
     }
 
+    // React Component lifecycle methods:
+    // componentWillMount() {
+    //     console.log('componentWillMount() fired');
+    // }
+    componentDidMount() {
+        console.log('fetching data...');
+    }
+    componentDidUpdate(prevProps, prevState) {
+        console.log('saving data...');
+    }
+    // componentWillUnmount() {
+    //     console.log('componentWillUnmount() fired');
+    // }
+
     resetOptions() {
         this.setState((prevState) => ({ options: [] }));
     }
