@@ -1,15 +1,37 @@
 class IndecisionApp extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.addOption = this.addOption.bind(this);
+        this.resetOptions = this.resetOptions.bind(this);
+        this.state = {
+            title: this.props.title,
+            subtitle: this.props.subtitle,
+            options: ['Thing One','Thing Two','Thing Three']
+        }
+    }
+
+    resetOptions() {
+        this.setState((prevState) => { 
+            return { options: [] }; 
+        }); 
+    }
+
+    addOption(newOption) {
+        this.setState((prevState) => { 
+            prevState.options.push(newOption);
+            return { options: prevState.options }; 
+        }); 
+    }
+
     render() {
-        const title = 'Indecision App',
-        subtitle = 'Put your life in the hands of a computer',
-        options = ['Thing One','Thing Two','Thing Three'];
         return (
             <div>
-                <Header title={title} subtitle={subtitle} />
-                <Action />
-                <ResetOptions options={options} />
-                <Options options={options} />
-                <AddOption />
+                <Header title={this.state.title} subtitle={this.state.subtitle} />
+                <Action hasOptions={this.state.options.length > 0}/>
+                <ResetOptions options={this.state.options} handleResetOptions={this.resetOptions} />
+                <Options options={this.state.options} />
+                <AddOption handleAddOption={this.addOption} />
             </div>
         );
     }
@@ -28,7 +50,11 @@ class Header extends React.Component {
 
 class Action extends React.Component {
     pickOption() { alert('Pickled Option'); }
-    render() { return <button onClick={this.pickOption}>What should I do?</button>; }
+    render() { 
+        return (
+            <button disabled={!this.props.hasOptions} onClick={this.pickOption}>What should I do?</button>
+        )
+    }
 }
 
 class Options extends React.Component {
@@ -59,15 +85,17 @@ class Option extends React.Component {
 }
 
 class AddOption extends React.Component {
+    constructor(props) {
+        super(props);
+        this.addOption = this.addOption.bind(this);
+    }
     addOption(event) { 
         event.preventDefault();
         const option = event.target.elements.option.value.trim();
         if (option) {
-        //     app.options.push(option);
-        //     renderApp();
-            alert(option); 
-            event.target.elements.option.value = '';
+            this.props.handleAddOption(option);
         }
+        event.target.elements.option.value = '';
     }
     render() {
         return (
@@ -82,18 +110,13 @@ class AddOption extends React.Component {
 }
 
 class ResetOptions extends React.Component {
-    constructor(props) {
-        super(props);
-        this.resetOptions = this.resetOptions.bind(this);
-    }
-    resetOptions() { alert(this.props.options); }
     render() {
         return (
             <div>
-                <button onClick={this.resetOptions /* The following works OK but is a bit expensive: .bind(this) */}>Reset Options</button>
+                <button onClick={this.props.handleResetOptions}>Reset Options</button>
             </div>
         );
     }
 }
 
-ReactDOM.render(<IndecisionApp />, document.getElementById('app'));
+ReactDOM.render(<IndecisionApp title={'Indecision App'} subtitle={'Put your life in the hands of a computer'} />, document.getElementById('app'));
