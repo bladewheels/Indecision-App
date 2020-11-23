@@ -9,7 +9,7 @@ class IndecisionApp extends React.Component {
         this.state = {
             title: this.props.title,
             subtitle: this.props.subtitle,
-            options: props.options
+            options: []
         }
     }
 
@@ -71,9 +71,6 @@ class IndecisionApp extends React.Component {
         );
     }
 }
-IndecisionApp.defaultProps = {
-    options: []
-};
 
 const Header = (props) => {
     return (
@@ -153,4 +150,4 @@ const ResetOptions = (props) => {
     );
 };
 
-ReactDOM.render(<IndecisionApp subtitle={'Put your life in the hands of a computer'} options={['one','two','three']} />, document.getElementById('app'));
+ReactDOM.render(<IndecisionApp subtitle={'Put your life in the hands of a computer'} />, document.getElementById('app'));
