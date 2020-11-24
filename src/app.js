@@ -1,34 +1,155 @@
-// import * as utils from './utils.js' ;
-// console.log('5x5=', utils.square(5));
-// or:
-// import /* anyIdentifierForTheDefaultExport */ subtract, { square, add } from './utils.js' ;
-
-console.log('Indecision App is running.');
-// console.log('5x5=', square(5));
-// console.log('5+6=', add(5,6));
-// // console.log('5-6=', anyIdentifierForTheDefaultExport(5,6));
-// console.log('5-6=', subtract(5,6));
-
-// import isSeniorInAlberta, { isAdult, canDrinkAlcohol } from './person.js' ;
-// console.log(`If your age is 17 then you are ${((isAdult(17)) ? '': 'not')} considered an adult in Alberta.`);
-// console.log(`If your age is 18 then you are ${((isAdult(18)) ? '': 'not')} considered an adult in Alberta.`);
-// console.log(`If your age is 17 then you can ${((canDrinkAlcohol(17)) ? '': 'not')} drink alcohol in Alberta.`);
-// console.log(`If your age is 18 then you can ${((canDrinkAlcohol(18)) ? '': 'not')} drink alcohol in Alberta.`);
-// console.log(`If your age is 64 then you are ${((isSeniorInAlberta(64)) ? '': 'not')} considered a senior citizen in Alberta.`);
-// console.log(`If your age is 65 then you are ${((isSeniorInAlberta(65)) ? '': 'not')} considered a senior citizen in Alberta.`);
-
-//  install (3rd-party module(s) e.g. yarn add validator@8.0.0) --> import --> use
-// import validator from 'validator' ;
-// console.log(`This email address (i.e. a.b@c.de) is${((validator.isEmail('a.b@c.de')) ? '': ' not')} valid.`);
-// console.log(`This email address (i.e. michael.leonard.shields@gmail.com) is${((validator.isEmail('michael.leonard.shields@gmail.com')) ? '': ' not')} valid.`);
-// console.log(`This email address (i.e. abcdef) is${((validator.isEmail('abcdef')) ? '': ' not')} valid.`);
-
 import React from 'react';
 import ReactDOM from 'react-dom';
+class IndecisionApp extends React.Component {
 
-const template = <p>test imports</p>;
-ReactDOM.render(template, document.getElementById('app'));
-// Above causes an error because Babel is NOT (yet) converting the ES5 code to ES6 i.e. JSX
-// ReactDOM.render(React.createElement('p', {}, 'test imports wo/Babel'), document.getElementById('app'));
+    constructor(props) {
+        super(props);
+        this.addOption = this.addOption.bind(this);
+        this.pickOption = this.pickOption.bind(this);
+        this.resetOptions = this.resetOptions.bind(this);
+        this.deleteOption = this.deleteOption.bind(this);
+        this.state = {
+            title: this.props.title,
+            subtitle: this.props.subtitle,
+            options: []
+        }
+    }
 
+    // React Component lifecycle methods:
+    // componentWillMount() {
+    //     console.log('componentWillMount() fired');
+    // }
+    componentDidMount() {
+        try {
+            const options = JSON.parse(localStorage.getItem('options'));
+            if (options) {
+                this.setState(() => ({ options }));
+            }
+        } catch (err) {
+            // Do nothing
+        }
+    }
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.options.length !== this.state.options.length) {
+            localStorage.setItem('options', JSON.stringify(this.state.options));
+        }
+    }
+    // componentWillUnmount() {
+    //     console.log('componentWillUnmount() fired');
+    // }
 
+    resetOptions() {
+        this.setState((prevState) => ({ options: [] }));
+    }
+
+    deleteOption(optionToRemove) {
+        this.setState((prevState) => ({ 
+            options: prevState.options.filter((option) => optionToRemove !== option)
+        }));
+    }
+
+    addOption(newOption) {
+        if (!newOption) {
+            return 'Enter valid value to add an option';
+        } else if (this.state.options.indexOf(newOption) > -1) {
+            return 'That option already exists';
+        }
+        this.setState((prevState) => ({ options: prevState.options.concat(newOption) }));
+    }
+
+    pickOption() {
+        alert(this.state.options[Math.floor(Math.random() * this.state.options.length)]);
+    }
+
+    render() {
+        return (
+            <div>
+                <Header title={this.state.title} subtitle={this.state.subtitle} />
+                <Action hasOptions={this.state.options.length > 0} handlePickOption={this.pickOption} />
+                <ResetOptions hasOptions={this.state.options.length > 0} handleResetOptions={this.resetOptions} />
+                <Options options={this.state.options} handleRemoveOption={this.deleteOption}/>
+                <AddOption handleAddOption={this.addOption} />
+            </div>
+        );
+    }
+}
+
+const Header = (props) => {
+    return (
+        <div>
+            <h1>{props.title}</h1>
+            {props.subtitle && <h2>{props.subtitle}</h2>}
+        </div>
+    );
+
+};
+Header.defaultProps = {
+    title: 'Indecision App'
+};
+
+const Action = (props) => {
+        return (
+            <button disabled={!props.hasOptions} onClick={props.handlePickOption}>What should I do?</button>
+        )
+};
+
+const Options = (props) => {    
+    return (
+        <div>
+            <p>Your Options:</p>
+            { props.options.length === 0 && <p>Please add an Option to get started</p> }
+            <ol>
+                { 
+                    props.options.map((option, index) => {
+                        return <Option key={index} index={index} text={option} handleRemoveOption={props.handleRemoveOption}/>;
+                    })
+                }
+            </ol>
+        </div>
+    );
+};
+
+const Option = (props) => {
+    return <li key={props.index} >{props.text} <button onClick={(event) => { props.handleRemoveOption(props.text); }} >Remove</button></li>;
+};
+
+class AddOption extends React.Component {
+    constructor(props) {
+        super(props);
+        this.addOption = this.addOption.bind(this);
+        this.state = {
+            error: undefined
+        }
+    }
+    addOption(event) { 
+        event.preventDefault();
+        const option = event.target.elements.option.value.trim();
+        const error = this.props.handleAddOption(option);
+        this.setState(() => ({ error }));
+
+        if (!error) {
+            event.target.elements.option.value = '';
+        }
+    }
+    render() {
+        return (
+            <div>
+                { this.state.error && <p>{this.state.error}</p>}
+                <form onSubmit={this.addOption}>
+                    <input type="text" name="option"/>
+                    <button>Add Option</button>
+                </form>
+            </div>
+        );
+    }
+}
+
+const ResetOptions = (props) => {    
+    return (
+        <div>
+            <button disabled={!props.hasOptions} onClick={props.handleResetOptions}>Reset Options</button>
+        </div>
+    );
+};
+
+ReactDOM.render(<IndecisionApp subtitle={'Put your life in the hands of a computer'} />, document.getElementById('app'));
