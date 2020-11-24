@@ -12,7 +12,9 @@ module.exports = {
             test: /\.js$/,
             exclude: /node_modules/
         }]
+    },
+    devtool: 'cheap-module-eval-source-map',
+    devServer: {
+        contentBase: path.join(__dirname, 'public')
     }
 }
-
-// We'll need a Loader for Babel or SCSS inclusion
