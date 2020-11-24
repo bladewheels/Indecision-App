@@ -28,17 +28,17 @@ class IndecisionApp extends React.Component {
         }
     }
 
-    resetOptions = () => {
+    handleResetOptions = () => {
         this.setState((prevState) => ({ options: [] }));
     };
 
-    deleteOption = (optionToRemove) => {
+    handleRemoveOption = (optionToRemove) => {
         this.setState((prevState) => ({ 
             options: prevState.options.filter((option) => optionToRemove !== option)
         }));
     };
 
-    addOption = (newOption) => {
+    handleAddOption = (newOption) => {
         if (!newOption) {
             return 'Enter valid value to add an option';
         } else if (this.state.options.indexOf(newOption) > -1) {
@@ -47,7 +47,7 @@ class IndecisionApp extends React.Component {
         this.setState((prevState) => ({ options: prevState.options.concat(newOption) }));
     };
 
-    pickOption = () => {
+    handlePickOption = () => {
         alert(this.state.options[Math.floor(Math.random() * this.state.options.length)]);
     };
 
@@ -55,10 +55,10 @@ class IndecisionApp extends React.Component {
         return (
             <div>
                 <Header title={this.state.title} subtitle={this.state.subtitle} />
-                <Action hasOptions={this.state.options.length > 0} handlePickOption={this.pickOption} />
-                <ResetOptions hasOptions={this.state.options.length > 0} handleResetOptions={this.resetOptions} />
-                <Options options={this.state.options} handleRemoveOption={this.deleteOption}/>
-                <AddOption handleAddOption={this.addOption} />
+                <Action hasOptions={this.state.options.length > 0} handlePickOption={this.handlePickOption} />
+                <ResetOptions hasOptions={this.state.options.length > 0} handleResetOptions={this.handleResetOptions} />
+                <Options options={this.state.options} handleRemoveOption={this.handleRemoveOption}/>
+                <AddOption handleAddOption={this.handleAddOption} />
             </div>
         );
     }

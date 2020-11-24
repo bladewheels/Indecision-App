@@ -5,7 +5,7 @@ class AddOption extends React.Component {;
     state = {
         error: undefined
     };
-    addOption = (event) => { 
+    handleAddOption = (event) => { 
         event.preventDefault();
         // console.log(testtting," webpack's support for source maps, see the runtime error in the browser console and a link to this line.");
         const option = event.target.elements.option.value.trim();
@@ -20,7 +20,7 @@ class AddOption extends React.Component {;
         return (
             <div>
                 { this.state.error && <p>{this.state.error}</p>}
-                <form onSubmit={this.addOption}>
+                <form onSubmit={this.handleAddOption}>
                     <input type="text" name="option"/>
                     <button>Add Option</button>
                 </form>
