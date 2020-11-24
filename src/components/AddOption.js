@@ -2,17 +2,12 @@ import React from 'react';
 
 export default
 class AddOption extends React.Component {;
-
-    constructor(props) {
-        super(props);
-        this.addOption = this.addOption.bind(this);
-        this.state = {
-            error: undefined
-        }
-    }
-    addOption(event) { 
+    state = {
+        error: undefined
+    };
+    addOption = (event) => { 
         event.preventDefault();
-        // console.log('testtting');
+        // console.log(testtting," webpack's support for source maps, see the runtime error in the browser console and a link to this line.");
         const option = event.target.elements.option.value.trim();
         const error = this.props.handleAddOption(option);
         this.setState(() => ({ error }));
@@ -20,7 +15,7 @@ class AddOption extends React.Component {;
         if (!error) {
             event.target.elements.option.value = '';
         }
-    }
+    };
     render() {
         return (
             <div>
